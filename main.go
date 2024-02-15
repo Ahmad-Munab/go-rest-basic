@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -169,5 +170,10 @@ func main() {
 	router.PATCH("/return", returnBooks)
 	router.DELETE("/books", removeBook)
 
-	router.Run("0.0.0.0:3004")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080" // Default port if PORT environment variable is not set
+	}
+
+	router.Run(fmt.Sprintf("0.0.0.0:%s", port))
 }
